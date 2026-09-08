@@ -1,60 +1,72 @@
 # Complete Task Planner
 
-面向广泛任务的轻量规划 Skill：把自然语言描述变成清晰的思路与可执行计划。可用于工作事务、研究分析、内容创作、项目推进、学习与生活安排，按具体目标和约束调整方法。
+将自然语言任务变成有依据的思路与分层行动计划，适配工作、研究、创作、项目、学习和生活安排。
 
-**完整思考，精简呈现。** 一个独立的 `SKILL.md`，无必装依赖，核心文件 43 行。
+**先看清全局，再逐层展开。** 核心是一个独立的 `SKILL.md`，共 53 行，无必装依赖。教程、示例和测试记录放在仓库中，不随每次调用加载。
 
-## 输出什么
+## 输出长什么样
 
-- 两句左右的推荐思路：做什么、为什么选择这条路线。
-- 通常 3–5 步行动：每步有具体动作、产出和完成标准。
-- 必要的关键提醒：先验证什么、何时调整路线。
+```text
+大方向：目标、推荐路线、理由与关键假设
+  ↓
+路线总览：确定场景 → 做出样例 → 试用修正 → 完成交付
+  ↓
+阶段 1｜明确目标
+  1.1 具体动作与直接产出
+  1.2 具体动作与直接产出
+  完成标志：用什么证据判断这一阶段完成
+阶段 2｜做出可试用样例
+  2.1 ……
+  2.2 ……
+  完成标志：……
+  ↓
+建议补充的考虑：可能遗漏什么 → 为什么重要 → 怎么补上
+现在先做：一个明确的起步动作
+```
 
-默认首答控制在约 350 个中文字以内；复杂任务可到 500 字，简单或澄清任务通常 150 字以内。用户要求详细时可展开，并保留关键依赖与可行性条件。
+普通多步任务通常分为 **3–5 个大步骤，每步 2–4 个小步骤**，按任务复杂度调整。默认约 600–1000 个中文字，复杂任务可到 1500 字；用户可以要求简版或展开指定阶段。简单请求直接回答，不强行套完整结构。
 
-## 安装
+默认用清晰标题、编号和留白。有真实并行、依赖或分支时，可补充 Mermaid 流程图；客户端有相应能力时，可以提供可展开的阶段视图。所有阶段目标和关键建议保持可见，操作细节逐层展开。交互展示并非所有客户端都支持，纯文字计划始终可读。
 
-在 Codex 中发送：
+参见 [完整输出示例](EXAMPLE.md) · [使用教程](TUTORIAL.md) · [测试记录](EVALUATION.md)。
+
+## 安装与使用
+
+在支持技能安装的 Codex 对话中发送：
 
 ```text
 请把 https://github.com/Nive0895/complete-task-planner 中
 skills/complete-task-planner 目录下的 Skill 安装到我的个人技能目录。
 ```
 
-使用所在客户端支持的个人技能目录，也可以手动复制 `skills/complete-task-planner` 整个文件夹。安装完成后，在下一条消息中明确点名使用。
-
-## 最简单的用法
+也可以将该文件夹复制到所在客户端支持的个人技能目录。安装完成后，明确点名使用：
 
 ```text
 请使用 complete-task-planner 帮我规划：
-我想完成……，截止时间是……，每周能投入……小时。
-我已有……，最终需要交付……。先给我简版。
+我的目标是……，目前想这样做……，截止时间是……。
+我已有……，能投入……，最终需要交付……。
+请给出大方向、几大步和每步的小步骤，并指出我的思路可能遗漏的考虑。
 ```
 
-例如：
-
-```text
-请使用 complete-task-planner。
-我下周要组织一次 10 人团队分享会，总共只有 6 小时准备。
-目标是让大家理解新流程，已有一份说明文档。
-帮我确定活动形式、准备顺序和完成标准，先给简版。
-```
-
-继续细化时说：“展开第一步，写清材料、方法和最小例子。”
-
-完整示例见 [使用教程](TUTORIAL.md)。不同客户端的选择入口见 [OpenAI 官方说明](https://learn.chatgpt.com/docs/build-skills#how-chatgpt-and-codex-use-skills)。
+继续细化：`只展开阶段 2，补充具体方法、材料和最小例子，保留其他阶段。`
 
 ## 验证
 
-核心工作流此前经过 8 类场景、3 轮、24 份回答的行为测试，最终 8/8 达到当时预设门槛，独立代理定性评审平均 9.88/10。当前版本扩展了场景适配说明。测试方法、修改过程和局限见 [测试记录](EVALUATION.md)。
+当前分层版本完成了 4 个场景的独立试答与内容复核：团队分享、搬家、零基础学习和直接写提醒。四例均通过本轮检查，包含时间预算、验收、遗漏建议和简单请求边界。三个规划回答分别为 933、1025、1078 个汉字；直接提醒为 19 个字符。
 
-## 设计参考
+这是有限场景的行为检查，并非全面质量保证。此前版本的 8 场景测试及评分单独保留在 [测试记录](EVALUATION.md)，不作为当前版本的新评分。
 
-本 Skill 为通用任务独立编写，参考了以下工作流思路：
+## GitHub 设计参考
 
-- [idea-refine](https://github.com/addyosmani/agent-skills/blob/main/skills/idea-refine/SKILL.md)：探索方向并收敛方案。
-- [spec-driven-development](https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md)：先明确目标与验收。
-- [planning-and-task-breakdown](https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md)：按依赖拆成可验证任务。
-- [planning-with-files](https://github.com/OthmanAdi/planning-with-files)：为长期任务保留计划与进度。
+以下是 2026-09-08 查询到的**仓库级** Star 数，仅作社区认可度参考，不是单个 Skill 的效果评分。本 Skill 独立编写，吸收通用方法，不复制整套开发工作流。
 
-无需安装这些参考项目。本 Skill 默认在对话中交付；用户要求保存时才维护记录。文件记录不提供后台自动监控或提醒。
+| 项目 | Stars（约） | 本次采用的思路 |
+|---|---:|---|
+| [obra/superpowers](https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md) | 283k | 阶段拆成具体小步骤，设置可验证的交付物 |
+| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | 92.9k | [idea-refine](https://github.com/addyosmani/agent-skills/blob/main/skills/idea-refine/SKILL.md) 检查假设；[planning-and-task-breakdown](https://github.com/addyosmani/agent-skills/blob/main/skills/planning-and-task-breakdown/SKILL.md) 安排依赖与验收 |
+| [markmap/markmap](https://github.com/markmap/markmap) | 13.1k | 从层级文本看全局，再展开细节 |
+| [mermaid-js/mermaid](https://github.com/mermaid-js/mermaid) | 90.2k | 用简洁的文本图表达依赖、并行和分支 |
+
+此前也参考了 [spec-driven-development](https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md) 的目标与验收思路，以及 [planning-with-files](https://github.com/OthmanAdi/planning-with-files) 的持续记录方式。
+
+无需安装这些参考项目。默认在对话中交付，用户要求保存时才维护计划记录；文件保存不提供后台自动跟踪或提醒。
